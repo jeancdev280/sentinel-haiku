@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel Haiku</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            background-color: #ffe6f0;
+            padding: 50px;
+            transition: background 0.5s, color 0.5s;
+        }
+        
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+        
+        #haiku {
+            font-size: 28px;
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .dark-mode #haiku {
+            background: #222;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .spotify-embed {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentinel Haiku</h1>
+    <p>Created by Jean</p>
+    <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    <div id="haiku">Click the button to generate a haiku!</div>
+    <br>
+    <button onclick="generateHaiku()">Generate Haiku</button>
+    <button onclick="speakHaiku()">🔊</button>
+    <label for="speed">Speed:</label>
+    <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1">
+    
+    <!-- Spotify Playlists -->
+    <div class="spotify-embed">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX3PIPIT6lEg5" width="300" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+
+    <script>
+        const line1 = ["Silent autumn breeze", "Moonlight on still waves", "Cherry blossoms fall", "Snowflakes touch my skin", "Morning sun rises"];
+        const line2 = ["whispers through the empty streets", "ripples across the night sky", "softly drifting in the wind", "melting in a quiet hush", "golden light bathes the valley"];
+        const line3 = ["lost in endless time.", "fading into dreams.", "whispering goodbyes.", "carving silent paths.", "holding ancient songs."];
+        
+        function generateHaiku() {
+            let haiku = `${line1[Math.floor(Math.random() * line1.length)]}<br>
+                         ${line2[Math.floor(Math.random() * line2.length)]}<br>
+                         ${line3[Math.floor(Math.random() * line3.length)]}`;
+            let haikuDiv = document.getElementById("haiku");
+            haikuDiv.innerHTML = haiku;
+            haikuDiv.style.opacity = 1; 
+        }
+
+        function speakHaiku() {
+            const haikuText = document.getElementById("haiku").innerText;
+            const speed = document.getElementById("speed").value;
+            const utterance = new SpeechSynthesisUtterance(haikuText);
+            utterance.rate = speed;
+            speechSynthesis.speak(utterance);
+        }
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
